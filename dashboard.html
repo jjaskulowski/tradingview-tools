@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html class="h-full bg-black">
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.1.0/mustache.min.js"></script>
+  <script src="https://s3.tradingview.com/tv.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class=" min-h-full">
+<div id="target" class="grid grid-cols-2 grid-rows-3 min-h-full">
+
+</div>
+<script id="template" type="text/template">
+<div class="tradingview-widget-container">
+  <div id="tradingview_{{symbol}}" class="h-[300px]"></div>
+
+</script>
+
+<script type="text/javascript">
+var symbols = [
+"NYSE:TREX", "NASDAQ:TTD", 
+"NYSE:SQ", "NYSE:NVO", "NASDAQ:MSFT", 
+"NASDAQ:DOCU", "NASDAQ:CRWD", 
+"NASDAQ:CGC", "NASDAQ:BBBY",
+"NYSE:GMED", "NYSE:LMT"
+, "NASDAQ:NVDA"];  // Przykładowa lista symboli
+var template = document.getElementById('template').innerHTML;
+var target = document.getElementById('target')
+symbols.forEach(function(symbol) {
+  var rendered = Mustache.render(template, { symbol: symbol });
+  
+  target.innerHTML += rendered;
+
+  new TradingView.widget({
+    "autosize": true,
+    "symbol": symbol,
+    "interval": "W",
+    "timezone": "Etc/UTC",
+    "theme": "dark",
+    "style": "1",
+    "locale": "en",
+    "toolbar_bg": "#f1f3f6",
+    "enable_publishing": false,
+    "allow_symbol_change": true,
+    "container_id": "tradingview_" + symbol
+  });
+});
+</script>
+
+</body>
+</html>
